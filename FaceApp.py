@@ -16,8 +16,8 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torchvision import models
 from collections import Counter
-from timeit import default_timer as timer
-
+#from timeit import default_timer as timer
+import time
 
 #title
 st.markdown("""
@@ -38,6 +38,7 @@ samples = pd.read_pickle("Data/my_samples.csv")
 #samples = samples.iloc[:,1:]
 #st.write(samples.pixels[1])
 
+@st.cache()
 def model_loader(model_path = None, label = None):
     """
     Args:
@@ -62,6 +63,12 @@ models = {f"model{i}" : model_loader(f"Data/model{i+1}.pt",samples.columns[i]) f
 width = st.sidebar.slider("plot width", 0.1, 25., 3.)
 height = st.sidebar.slider("plot height", 0.1, 25., 1.)
 
+@st.cache(ttl=60, show_spinner=True)
+def rand_num():
+    return ri(0,samples.shape[0]-1)
+
+rand_image = rand_num()
+
 def plot_image(num):
     """
     this function plots a random image.
@@ -80,17 +87,13 @@ def plot_image(num):
     ax.axis('off')
     return fig
 
-@st.cache(ttl=60, show_spinner=True)
-def rand_num():
-    return ri(0,samples.shape[0]-1)
 
-rand_image = rand_num()
 
 st.write("image #", rand_image)
 st.pyplot(plot_image(rand_image))
 
 
-ethnicities = dict(zip([i for i in range(len(samples.ethnicity.unique().tolist()))], ["white","black","asian","indian"]))
+ethnicities = dict(zip([i for i in range(len(samples.ethnicity.unique().tolist()))], ["white","african","asian","indian"]))
 genders = dict(zip([i for i in range(len(samples.gender.unique().tolist()))], ["male","female"]))
 AgeGroups = dict(zip([i for i in range(len(samples.AgeGroup.unique().tolist()))], ["child","young adult","adult","middle aged","elder"]))
     
@@ -114,24 +117,7 @@ def my_score():
         score+=5
     return score    
 
-if st.button('your score:'):
-    if my_ethnicity==real_ethnicity:
-        st.write('ethnicity: ', my_ethnicity, " ג”")
-        
-    else:
-        st.write('ethnicity: ', my_ethnicity, " ג–")
-    
-    if my_gender==real_gender:
-        st.write('gender: ', my_gender, " ג”")        
-    else:
-        st.write('gender: ', my_gender, " ג–")
-
-        if my_AgeGroup==real_AgeGroup:
-        st.write('AgeGroup: ', my_AgeGroup, " ג”")
-            
-    else:
-        st.write('AgeGroup: ', my_AgeGroup, " ג–")    
-    st.write('my score: ', my_score())    
+  
 
 @st.cache(ttl=60, show_spinner=True)
 def predictor(model = None, my_transforms = None, num = None):
@@ -179,38 +165,74 @@ def computer_score():
     return score
     
 
-
-if st.button('prediction:'):
-    if ethnicity==real_ethnicity:
-        st.write('ethnicity: ', ethnicity, " ג”")
+#if st.button('your score:'):
+if st.button('submit results!'):
+    
+    st.write("")
+    st.markdown('__checking your scores...__')
+    time.sleep(2)
+    st.markdown('__Done!__')
+    
+    if my_ethnicity==real_ethnicity:
+        st.write('ethnicity: ', my_ethnicity, " ✔")
+        
     else:
-        st.write('ethnicity: ', ethnicity, " ג–")
+        st.write('ethnicity: ', my_ethnicity, " ✖")
+    
+    if my_gender==real_gender:
+        st.write('gender: ', my_gender, " ✔")        
+    else:
+        st.write('gender: ', my_gender, " ✖")
+
+    if my_AgeGroup==real_AgeGroup:
+        st.write('AgeGroup: ', my_AgeGroup, " ✔")
+            
+    else:
+        st.write('AgeGroup: ', my_AgeGroup, " ✖")    
+    st.write('my score: ', my_score())  
+
+    st.write("")
+    st.markdown('__checking computer scores...__')
+    time.sleep(2)
+    st.markdown('__Done!__')
+    
+#if st.button('prediction:'):
+    if ethnicity==real_ethnicity:
+        st.write('ethnicity: ', ethnicity, " ✔")
+    else:
+        st.write('ethnicity: ', ethnicity, " ✖")
     
     if gender==real_gender:
-        st.write('gender: ', gender, " ג”")
+        st.write('gender: ', gender, " ✔")
 
     else:
-        st.write('gender: ', gender, " ג–")
+        st.write('gender: ', gender, " ✖")
     if AgeGroup==real_AgeGroup:
-        st.write('AgeGroup: ', AgeGroup, " ג”")
+        st.write('AgeGroup: ', AgeGroup, " ✔")
 
     else:
-        st.write('AgeGroup: ', AgeGroup, " ג–")
+        st.write('AgeGroup: ', AgeGroup, " ✖")
         
     st.write('computer score: ', computer_score())
 
+    st.markdown('__Answers:__')
 
 
-
-if st.button('reality:'):
+#if st.button('reality:'):
     st.write('ethnicity : ', real_ethnicity)
     st.write('gender: ', real_gender)
     st.write('AgeGroup: ', real_AgeGroup)
     
-if st.button("declare winner!"):
+    st.write("")
+    st.markdown('__checking scores...__')
+    time.sleep(3)
+    
+#if st.button("declare winner!"):
     if computer_score()>my_score():
-        st.write("computer wins!")
+        st.write("# computer wins!")
     elif computer_score()==my_score():
-        st.write("tie!")
+        st.write("# tie!")
     else:
-        st.write("you win!")
+        time.sleep(3)
+        st.balloons()
+        st.markdown('# you win!')
