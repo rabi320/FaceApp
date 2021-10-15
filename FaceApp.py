@@ -2,16 +2,13 @@ import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-from random import randint as ri
+from random import randint as ri#
 import torch
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms
 import torch.nn as nn
 from torchvision import models
-import time
+import time#
 
 #title
 st.markdown("""
@@ -168,7 +165,7 @@ if st.button('submit results!'):
     st.markdown('__Done!__')
     
     if my_ethnicity==real_ethnicity:
-        st.write('ethnicity: ', my_ethnicity, " ✔")
+        st.write('ethnicity: ', my_ethnicity, " ✔”")
         
     else:
         st.write('ethnicity: ', my_ethnicity, " ✖")
@@ -179,7 +176,7 @@ if st.button('submit results!'):
         st.write('gender: ', my_gender, " ✖")
 
     if my_AgeGroup==real_AgeGroup:
-        st.write('AgeGroup: ', my_AgeGroup, " ✔")
+        st.write('AgeGroup: ', my_AgeGroup, " ✔”")
             
     else:
         st.write('AgeGroup: ', my_AgeGroup, " ✖")    
@@ -197,7 +194,7 @@ if st.button('submit results!'):
         st.write('ethnicity: ', ethnicity, " ✖")
     
     if gender==real_gender:
-        st.write('gender: ', gender, " ✔")
+        st.write('gender: ', gender, " ✔”")
 
     else:
         st.write('gender: ', gender, " ✖")
