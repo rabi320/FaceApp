@@ -165,7 +165,7 @@ if st.button('submit results!'):
     st.markdown('__Done!__')
     
     if my_ethnicity==real_ethnicity:
-        st.write('ethnicity: ', my_ethnicity, " ✔”")
+        st.write('ethnicity: ', my_ethnicity, " ✔")
         
     else:
         st.write('ethnicity: ', my_ethnicity, " ✖")
@@ -176,7 +176,7 @@ if st.button('submit results!'):
         st.write('gender: ', my_gender, " ✖")
 
     if my_AgeGroup==real_AgeGroup:
-        st.write('AgeGroup: ', my_AgeGroup, " ✔”")
+        st.write('AgeGroup: ', my_AgeGroup, " ✔")
             
     else:
         st.write('AgeGroup: ', my_AgeGroup, " ✖")    
@@ -194,7 +194,7 @@ if st.button('submit results!'):
         st.write('ethnicity: ', ethnicity, " ✖")
     
     if gender==real_gender:
-        st.write('gender: ', gender, " ✔”")
+        st.write('gender: ', gender, " ✔")
 
     else:
         st.write('gender: ', gender, " ✖")
