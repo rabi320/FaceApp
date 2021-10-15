@@ -3,20 +3,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from random import randint as ri
-import os
 import torch
 import pandas as pd
-from skimage import io, transform
 import numpy as np
 import matplotlib.pyplot as plt
 from torch.utils.data import Dataset, DataLoader
-from torchvision import transforms, utils
+from torchvision import transforms
 import torch.nn as nn
-import torch.nn.functional as F
-import torch.optim as optim
 from torchvision import models
-from collections import Counter
-#from timeit import default_timer as timer
 import time
 
 #title
@@ -24,13 +18,13 @@ st.markdown("""
 # Face App: try to outsmart The computer!
 The rules are simple:
 
-1. You are given a black and white low quality image(changes randomly every 60 seconds) .
-2. Predict the Ethincity (white, black, asian or male) - 3 points
-3. Prdict the gender - 2 points.
-4. PrTedict the age group (child (1-18), young adult (19-35), adult (36-50), middle aged (51-70) or elder (71-120)) - 5 points.
+1. You are given a black and white low quality 48X48 image (changes randomly every 60 seconds).
+2. Predict the Ethincity (white, african, asian or male) - **3 points**
+3. Prdict the gender - **2 points**.
+4. Predict the age group  - (child (1-18), young adult (19-35), adult (36-50), middle aged (51-70) or elder (71-120)) - **5 points**.
 5. The higher score wins!
 
-so who's vision is better? 
+## so who's vision is better? 
 """)
 st.markdown('---')
 
@@ -60,8 +54,8 @@ def model_loader(model_path = None, label = None):
 
 #get all models in one dict
 models = {f"model{i}" : model_loader(f"Data/model{i+1}.pt",samples.columns[i]) for i in range(3)}
-width = st.sidebar.slider("plot width", 0.1, 25., 3.)
-height = st.sidebar.slider("plot height", 0.1, 25., 1.)
+width = st.sidebar.slider("image width", 0.1, 25., 3.)
+height = st.sidebar.slider("image height", 0.1, 25., 1.)
 
 @st.cache(ttl=60, show_spinner=True)
 def rand_num():
@@ -169,7 +163,7 @@ def computer_score():
 if st.button('submit results!'):
     
     st.write("")
-    st.markdown('__checking your scores...__')
+    st.markdown('## __checking your scores...__')
     time.sleep(2)
     st.markdown('__Done!__')
     
@@ -192,7 +186,7 @@ if st.button('submit results!'):
     st.write('my score: ', my_score())  
 
     st.write("")
-    st.markdown('__checking computer scores...__')
+    st.markdown('## __checking computer scores...__')
     time.sleep(2)
     st.markdown('__Done!__')
     
@@ -215,7 +209,7 @@ if st.button('submit results!'):
         
     st.write('computer score: ', computer_score())
 
-    st.markdown('__Answers:__')
+    st.markdown('## __Answers:__')
 
 
 #if st.button('reality:'):
@@ -224,7 +218,7 @@ if st.button('submit results!'):
     st.write('AgeGroup: ', real_AgeGroup)
     
     st.write("")
-    st.markdown('__checking scores...__')
+    st.markdown('## __checking scores...__')
     time.sleep(3)
     
 #if st.button("declare winner!"):
