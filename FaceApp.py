@@ -46,7 +46,7 @@ def model_loader(model_path = None, label = None):
                           nn.LogSoftmax(dim=1)))
 
 
-    model.load_state_dict(torch.load(model_path),map_location=torch.device('cpu'))
+    model.load_state_dict(torch.load(model_path,map_location=torch.device('cpu')))
     return model.eval()
 
 #get all models in one dict
