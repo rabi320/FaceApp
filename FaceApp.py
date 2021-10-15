@@ -36,7 +36,7 @@ def model_loader(model_path = None, label = None):
     >model_path (str)- the path to current model.
     >label (str)-the label to predict. 
     """
-    model = models.wide_resnet50_2()
+    model = models.resnet18()
     num_features = model.fc.in_features
     model.fc = nn.Sequential(
                           nn.Linear(num_features, 256),
